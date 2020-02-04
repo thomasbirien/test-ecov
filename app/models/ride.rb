@@ -1,5 +1,6 @@
 class Ride < ApplicationRecord
   include AASM
+  include Payment
   before_create :generate_reference
   after_create :state_created
 
@@ -22,16 +23,19 @@ class Ride < ApplicationRecord
 
   def notify_started
     puts "started"
+    self.pay
   end
 
   def notify_canceled
     puts "canceled"
+    self.reimburse
   end
 
   private
 
     def state_created
       puts "created, need to connect bill"
+      self.bill
     end
 
     def generate_reference
