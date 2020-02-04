@@ -1,3 +1,6 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  resources :rides, only: :create
+  post "rides/start", to: "rides#start"
+  post "rides/cancel", to: "rides#start"
 end
