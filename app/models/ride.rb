@@ -1,6 +1,6 @@
 class Ride < ApplicationRecord
   include AASM
-  before_save :generate_reference
+  before_create :generate_reference
   after_create :state_created
 
   # Aasm =======================================================================
