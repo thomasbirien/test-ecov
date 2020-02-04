@@ -1,5 +1,6 @@
 class Ride < ApplicationRecord
   include AASM
+  include Payment
   before_create :generate_reference
   after_create :state_created
 
