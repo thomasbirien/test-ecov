@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :rides, only: :create
-  post "rides/start", to: "rides#start"
-  post "rides/cancel", to: "rides#start"
+  resources :rides, only: [:index, :create]
+  patch "rides/start", to: "rides#start"
+  patch "rides/cancel", to: "rides#start"
 end
