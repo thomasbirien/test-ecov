@@ -1,0 +1,19 @@
+<div class="container">
+ <div style="text-align: center">
+  <div>
+    <%= link_to "Create a new ride !", rides_path, method: :post, class: "btn btn-primary"%>
+  </div>
+ </div>
+ <div>
+   <h3>list of rides</h3>
+   <div>
+    <% @rides.each do |ride| %>
+      <%= ride.id %>
+      <%= ride.ref %>
+      <%= ride.state %>
+      <%= link_to "start", rides_start_path(id: ride.id), method: :patch, class: "btn btn-primary"%>
+      <%= link_to "cancel", rides_cancel_path(id: ride.id), method: :patch, class: "btn btn-primary"%>
+    <% end %>
+   </div>
+ </div>
+</div>
