@@ -6,13 +6,15 @@
  </div>
  <div>
    <h3>list of rides</h3>
-   <div>
+   <div class="row">
     <% @rides.each do |ride| %>
-      <%= ride.id %>
-      <%= ride.ref %>
-      <%= ride.state %>
-      <%= link_to "start", rides_start_path(id: ride.id), method: :patch, class: "btn btn-primary"%>
-      <%= link_to "cancel", rides_cancel_path(id: ride.id), method: :patch, class: "btn btn-primary"%>
+      <div class="col-12" style="margin-top: 10px;">
+        <%= ride.id %>
+        <%= ride.ref %>
+        <%= ride.state %>
+        <%= link_to "start", rides_start_path(id: ride.id), method: :patch, class: "btn btn-warning"%>
+        <%= link_to "cancel", rides_cancel_path(id: ride.id), method: :patch, class: "btn btn-danger"%>
+      </div>
     <% end %>
    </div>
  </div>
