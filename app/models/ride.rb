@@ -24,11 +24,13 @@ class Ride < ApplicationRecord
   def notify_started
     puts "started"
     self.pay
+    RabbitmqSend.send("Start a ride: id: #{self.id}, ref: #{self.ref}","start")
   end
 
   def notify_canceled
     puts "canceled"
     self.reimburse
+    RabbitmqSend.send("Cancel a ride: id: #{self.id}, ref: #{self.ref}","cancel")
   end
 
   private
@@ -36,6 +38,7 @@ class Ride < ApplicationRecord
     def state_created
       puts "created, need to connect bill"
       self.bill
+      RabbitmqSend.send("Create a new ride: id: #{self.id}, ref: #{self.ref}","create")
     end
 
     def generate_reference
