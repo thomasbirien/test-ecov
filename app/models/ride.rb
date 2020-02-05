@@ -1,8 +1,10 @@
 class Ride < ApplicationRecord
   include AASM
   include Payment
-  before_create :generate_reference
+
   after_create :state_created
+
+  validates :ref, uniqueness: true, presence: true
 
   # Aasm =======================================================================
 
@@ -33,23 +35,23 @@ class Ride < ApplicationRecord
     RabbitmqSend.send("Cancel a ride: id: #{self.id}, ref: #{self.ref}","cancel")
   end
 
+  def generate_ref
+    random_ref = SecureRandom.base58(4)
+
+    if Ride.exists?(ref: random_ref)
+      loop do
+        random_ref = SecureRandom.base58(4)
+        break if !Ride.exists?(ref: random_ref)
+      end
+    end
+    self.ref = random_ref
+  end
+
   private
 
     def state_created
       puts "created, need to connect bill"
       self.bill
       RabbitmqSend.send("Create a new ride: id: #{self.id}, ref: #{self.ref}","create")
-    end
-
-    def generate_reference
-      random_ref = SecureRandom.base58(4)
-
-      if Ride.exists?(ref: random_ref)
-        loop do
-          random_ref = SecureRandom.base58(4)
-          break if !Ride.exists?(ref: random_ref)
-        end
-      end
-      self.ref = random_ref
     end
 end

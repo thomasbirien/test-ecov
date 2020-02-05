@@ -5,18 +5,19 @@ class RidesController < ApplicationController
   end
 
   def create
-    Ride.create
+    ride = Ride.new
+    ride.generate_ref
+    ride.save
+
     redirect_to root_path
   end
 
   def start
-    # need to find a specific ride
     @ride.ride_start!
     redirect_to root_path
   end
 
   def cancel
-    # need to find a specific ride
     @ride.ride_cancel!
     redirect_to root_path
   end
